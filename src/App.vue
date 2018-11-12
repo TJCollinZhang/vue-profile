@@ -7,6 +7,44 @@
     <router-view/>
   </div>
 </template>
+<script lang="ts">
+    import { Component, Prop, Vue } from 'vue-property-decorator';
+    import {TweenLite, CSSPlugin, TimelineLite} from 'gsap/TweenMax'
+
+    @Component
+    export default class App extends Vue {
+        private mounted() {
+            let tl = new TimelineLite()
+            let loaderWrapper = document.getElementById('loaderWrapper')
+            let preLoader = document.getElementById('preLoader')
+            let circle = document.getElementById('circle')
+            tl.to(circle, 0.3, {
+                opacity: 0,
+            }).to(preLoader, 0.5, {
+                height: 300,
+                width: 300,
+            }).to(loaderWrapper, 0.5, {
+                opacity: 0,
+                // delay: 1
+            }).to(loaderWrapper, 0.5, {
+                display: 'none'
+            })
+            // new TweenLite.to(circle, 0.5, {
+            //     opacity: 0,
+            // })
+            // new TweenLite.to(preLoader,0.5,{
+            //     // height: 0,
+            //     // scale: 0.5,
+            //     height: 300,
+            //     width: 300,
+            //     transformOrigin: 'center, center',
+            //     // opacity: 0,
+            //     onComplete: function ()  {
+            //     }
+            // })
+        }
+    }
+</script>
 <style lang="stylus">
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif

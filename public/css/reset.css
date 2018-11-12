@@ -1,0 +1,289 @@
+html {
+    font-size: 14px;
+    word-spacing: 1px;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+    margin: 0;
+    color: #555;
+    letter-spacing: .5px;
+    font-family: Futura, -apple-system, SF UI Text, Arial, PingFang SC, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/** 清除内外边距 **/
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+hr,
+p,
+blockquote,
+
+    /* structural elements 结构元素 */
+
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+
+    /* list elements 列表元素 */
+
+pre,
+
+    /* text formatting elements 文本格式元素 */
+
+form,
+fieldset,
+legend,
+button,
+input,
+textarea,
+
+    /* form elements 表单元素 */
+
+th,
+td
+    /* table elements 表格元素 */
+
+{
+    margin: 0;
+    padding: 0;
+}
+
+/** 设置默认字体 **/
+
+button,
+input,
+select,
+textarea
+    /* for ie */
+
+{
+    font: 14px/1.5 tahoma, arial, \5b8b\4f53, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 100%;
+}
+
+address,
+cite,
+dfn,
+em,
+var {
+    font-style: normal;
+}
+
+/* 将斜体扶正 */
+
+code,
+kbd,
+pre,
+samp {
+    font-family: courier new, courier, monospace;
+}
+
+/* 统一等宽字体 */
+
+small {
+    font-size: 12px;
+}
+
+/* 小于 12px 的中文很难阅读，让 small 正常化 */
+
+/** 重置列表元素 **/
+
+ul,
+ol {
+    list-style: none;
+}
+
+/** 重置文本格式元素 **/
+
+a {
+    text-decoration: none;
+}
+
+a {
+    color: #555;
+    text-decoration: none;
+}
+
+strong {
+    font-weight: normal;
+}
+
+/** 重置表单元素 **/
+
+legend {
+    color: #000;
+}
+
+/* for ie6 */
+
+fieldset,
+img {
+    border: 0;
+}
+
+/* img 搭车：让链接里的 img 无边框 */
+
+button,
+input,
+select,
+textarea {
+    font-size: 100%;
+}
+
+/* 使得表单元素在 ie 下能继承字体大小 */
+
+/* 注：optgroup 无法扶正 */
+
+/** 重置表格元素 **/
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+i {
+    font-style: normal
+}
+
+.flex-display {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.flex-center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -ms-grid-row-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.flex-1 {
+    -prefix-box-flex: 1;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -moz-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+}
+
+.fill-parent {
+    width: 100%;
+    height: 100%;
+}
+
+/* loaderWrapper start*/
+#loaderWrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* preLoader start*/
+#preLoader {
+    background-color: #0d0d0d;
+    z-index: 1000000;
+    transition: all 1s;
+
+}
+
+#preLoader #circle {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 3px;
+    border-style: solid;
+    border-color: transparent;
+    border-top-color: #f1f1f1;
+    -webkit-animation: original 2400ms linear infinite;
+    animation: original 2400ms linear infinite;
+    z-index: 999;
+}
+
+#preLoader #circle::before {
+    content: "";
+    position: absolute;
+    top: 7.5px;
+    left: 7.5px;
+    right: 7.5px;
+    bottom: 7.5px;
+    border-radius: 50%;
+    border: 3px;
+    border-style: solid;
+    border-color: transparent;
+    border-top-color: #f1f1f1;
+    -webkit-animation: original 2700ms linear infinite;
+    animation: original 2700ms linear infinite;
+}
+
+#preLoader #circle::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border-radius: 50%;
+    border: 3px;
+    border-style: solid;
+    border-color: transparent;
+    border-top-color: #f1f1f1;
+    -webkit-animation: original 1800ms linear infinite;
+    animation: original 1800ms linear infinite;
+}
+
+@-webkit-keyframes original {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes original {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+/* preLoader end*/
+
+/*loaderWrapper end*/
