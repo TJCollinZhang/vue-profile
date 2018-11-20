@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>vue-profile</title>
-    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="<%= BASE_URL %>css/reset.css">
 
   </head>
   <body>
     <noscript>
       <strong>We're sorry but vue-profile doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="loaderWrapper" class="flex-display flex-center">
-      <div class="fill-parent flex-display flex-center" id="preLoader">
+    <div id="loaderWrapper" class="absolute-fill-parent flex-display flex-center">
+      <div id="preLoader" class="fill-parent flex-display flex-center" >
         <div id="circle"></div>
       </div>
     </div>

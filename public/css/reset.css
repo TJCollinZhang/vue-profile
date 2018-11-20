@@ -12,6 +12,7 @@ html {
     -webkit-font-smoothing: antialiased;
 }
 
+
 *,
 *:before,
 *:after {
@@ -187,6 +188,12 @@ i {
     justify-content: center;
 }
 
+.border-round {
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
 .flex-1 {
     -prefix-box-flex: 1;
     -webkit-box-flex: 1;
@@ -196,24 +203,30 @@ i {
     flex: 1;
 }
 
+.absolute-fill-parent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
 .fill-parent {
     width: 100%;
     height: 100%;
 }
 
-/* loaderWrapper start*/
-#loaderWrapper {
-    position: absolute;
-    width: 100%;
-    height: 100%;
+/*loaderWrapper start*/
+#loaderWrapper{
+    z-index: 1000;
 }
 
 /* preLoader start*/
 #preLoader {
     background-color: #0d0d0d;
-    z-index: 1000000;
-    transition: all 1s;
-
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 #preLoader #circle {
@@ -227,7 +240,6 @@ i {
     border-top-color: #f1f1f1;
     -webkit-animation: original 2400ms linear infinite;
     animation: original 2400ms linear infinite;
-    z-index: 999;
 }
 
 #preLoader #circle::before {
