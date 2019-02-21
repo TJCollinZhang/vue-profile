@@ -4,7 +4,6 @@
             <img src="../assets/images/avatar.jpg" alt="Avatar">
         </div>
         <p class="desc">Collin</p>
-
     </div>
     
 </template>
@@ -21,9 +20,7 @@
 <style scoped lang="stylus">
     .front-pages
         position absolute
-        top 50%
-        left 50%
-        transform translate(-50%,-50%)
+
         cursor pointer
         padding 20px
         width 200px

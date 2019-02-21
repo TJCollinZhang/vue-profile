@@ -172,6 +172,12 @@ i {
     font-style: normal
 }
 
+body {
+    min-height: 800px;
+    min-width: 1000px;
+    background: url("../img/main-bg.jpg") center bottom;
+}
+
 .flex-display {
     display: -webkit-box;
     display: -ms-flexbox;
