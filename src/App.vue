@@ -38,8 +38,10 @@
                     <!--</li>-->
                 </ul>
             </div>
-            <div class="right-part part"></div>
             <div class="bottom-part part"></div>
+            <div class="right-part part">
+                <h2 class="title">Welcome To <span class="title-part"> My {{title}}</span></h2>
+            </div>
             <!--<MainContent v-if="!showFrontPage"></MainContent>-->
         </div>
 
@@ -59,13 +61,14 @@
     export default class App extends Vue {
         private showFrontPage = true;
         private showDesc = true;
+        private title = "My Profile"
         private selectedItem = 'Home';
         private partMargin = 20;
         private frontPageHeight = 260;
         private partOffset = 10;
         private wrapperWidth = 800;
         private wrapperHeight = 600;
-        private diff = 50;
+        private diff = 150;
         private navList = [
             {
                 title: 'Home',
@@ -113,18 +116,27 @@
             self.selectedItem = item;
             const navClickTl = new TimelineLite();
             navClickTl
-                .to('.right-part', 0.5, {
+                .to('.right-part', 0.8, {
                     top: self.partMargin + self.partOffset + self.frontPageHeight - self.diff,
                 }, 'stage1')
-                .to('.bottom-part', 0.5, {
+                .to('.bottom-part', 0.8, {
                     height: 0
                 }, 'stage1')
-                .to('.right-part', 0.5, {
+                .to('.right-part .title', 0.5, {
+                    rotationX: 90
+                }, 'stage1')
+                .call(()=>{
+                    self.title = item
+                })
+                .to('.right-part', 0.8, {
                     top: self.partMargin,
                 }, 'stage2')
-                .to('.bottom-part', 0.5, {
+                .to('.bottom-part', 0.8, {
                     height: self.wrapperHeight - self.frontPageHeight - self.partOffset - self.partMargin * 2 + self.diff,
                 }, 'stage2')
+                .to('.right-part .title', 0.8, {
+                    rotationX: 0
+                })
         }
 
         private frontPageClick() {
@@ -178,7 +190,7 @@
     part-offset = 10px
     wrapper-width = 800
     wrapper-height = 600
-    diff = 50
+    diff = 150
     #app
         z-index 50
         background-size cover
@@ -249,9 +261,9 @@
                         }
                     }
                     @-webkit-keyframes blink {
-                      100% {
-                          opacity: 0;
-                      }
+                        100% {
+                              opacity: 0;
+                        }
                     }
                     @-moz-keyframes blink {
                         100% {
@@ -316,7 +328,16 @@
                 height front-page-height - diff
                 right -@width
                 top part-margin
-                background-color: yellow;
+                background-color: #0d0d0d;
+                .title
+                    position absolute
+                    bottom 10px
+                    left 20px
+                    font-size 2.5rem
+                    font-weight 400
+                    color #fff
+                    .title-part
+                        color #f4d03f
             .bottom-part
                 width wrapper-width - part-margin* 2 - front-page-width - part-offset
                 height wrapper-height - part-margin* 2 - front-page-height - part-offset + diff
