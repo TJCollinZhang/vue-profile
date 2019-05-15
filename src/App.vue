@@ -10,12 +10,12 @@
                 <div class="avatar flex-display flex-center">
                     <img src="./assets/images/avatar.jpg" alt="Avatar">
                 </div>
-                <p class="desc" v-if="showDesc"><span>I'm </span><span ref="descStr"></span></p>
+                <p class="desc" v-show="showDesc"><span>I'm </span><span ref="descStr"></span></p>
                 <p class="desc" v-show="!showDesc"><span>Collin</span></p>
             </div>
             <div class="left-part part">
                 <ul class="nav">
-                    <li v-for="item in navList" :class="{selected: item.title == selectedItem}" :key="item.title"
+                    <li v-for="item in navList" :class="{selected: item.title == selectedNav}" :key="item.title"
                         @click="handleClick(item.title)">
                         <h4>{{`${item.title} | ${item.label}`}}</h4>
                         <i class="iconfont" :class="item.icon"></i>
@@ -38,9 +38,78 @@
                     <!--</li>-->
                 </ul>
             </div>
-            <div class="bottom-part part"></div>
+            <div class="bottom-part part">
+                <div class="home" v-if="selectedItem == 'Home Page'">
+                    <h3 class="part-title">Hello, I am <span class="name">Collin</span></h3>
+                    <p class="intro-item">Web Developer</p>
+                    <p class=""><span><i class="iconfont icon-check"></i>Coding</span></p>
+                    <p class=""><span><i class="iconfont icon-check"></i>美剧</span></p>
+                    <p class=""><span><i class="iconfont icon-check"></i>罗小黑</span></p>
+                    <p class=""><span><i class="iconfont icon-check"></i>... ...</span></p>
+                    <p class="intro-item"></p>
+                    <h3 class="part-title second">Personal Info</h3>
+                    <ul class="info-list">
+                        <li><span class="label">Name</span><span class="content">Zhang Cong</span></li>
+                        <li><span class="label">Address</span><span class="content">Shang Hai</span></li>
+                        <li><span class="label">Email</span><span class="content">tjzhangcong@163.com</span></li>
+                        <li><span class="label">GitHub</span><span class="content">TJCollinZhang</span></li>
+                    </ul>
+                    <div class="profile-img"></div>
+                </div>
+                <div class="resume" v-if="selectedItem == 'My Resume'">
+                    <ul class="resume-nav">
+                        <li :class="{selected: resumeSelectedItem == 'skills'}" @click="changeResumeList">
+                            <h3 class="resume-nav-title">Skills</h3>
+                        </li>
+                        <div class="gap"></div>
+                        <li :class="{selected: resumeSelectedItem != 'skills'}" @click="changeResumeList">
+                            <h3 class="resume-nav-title">Blogs</h3>
+                        </li>
+                    </ul>
+                    <div class="skills-list" v-if="resumeSelectedItem == 'skills'">
+                        <ul class="skill-list">
+                            <li><i class="iconfont icon-vue"></i><span>Vue</span></li>
+                            <li><i class="iconfont icon-angular"></i><span>Angular</span></li>
+                            <li><i class="iconfont icon-electron"></i><span>Electron</span></li>
+                            <li><i class="iconfont icon-koa"></i><span>Koa</span></li>
+                        </ul>
+                    </div>
+                    <div class="blog-list" v-if="resumeSelectedItem != 'skills'"></div>
+                </div>
+                <div class="my-portfolio" v-if="selectedItem == 'My Portfolio'"></div>
+                <div class="my-contact" v-if="selectedItem == 'My Contact'">
+                    <div class="map">
+                        <!--<baidu-map class="map-view"  :center="center" :zoom="zoom" @ready="handler"></baidu-map>-->
+                        <baidu-map class="map-view" :center="{lng: 121.594, lat: 31.203}" :zoom="15">
+                            <bm-marker :position="{lng: 121.594559, lat: 31.203775}" :dragging="false" animation="BMAP_ANIMATION_BOUNCE">
+                                <bm-label content="" :labelStyle="{color: 'red', fontSize : '24px'}" :offset="{width: -35, height: 30}"/>
+                            </bm-marker>
+                        </baidu-map>
+                    </div>
+                    <div class="email-wrapper">
+                        <div class="info-part">
+                            <div class="info-content">
+                                <h3>Contact Info</h3>
+                                <div class="email-address">
+                                    <i class="iconfont icon-email"></i>
+                                    <span>tjzhangcong@163.com</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="email-part">
+                            <h3>MAIL ME</h3>
+                            <form action="">
+                                <input class="form-control" type="text" placeholder="Name">
+                                <input class="form-control" type="text" placeholder="Email">
+                                <textarea class="form-control" rows="2" placeholder="Message"></textarea>
+                                <button class="form-control">SEND</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="right-part part">
-                <h2 class="title">Welcome To <span class="title-part"> My {{title}}</span></h2>
+                <h4 class="title">Welcome To <span class="title-part">{{title}}</span></h4>
             </div>
             <!--<MainContent v-if="!showFrontPage"></MainContent>-->
         </div>
@@ -51,7 +120,7 @@
     import {Component, Prop, Vue} from 'vue-property-decorator';
     import {TweenLite, CSSPlugin, TimelineLite} from 'gsap/TweenMax';
     import {init} from 'ityped';
-    import MainContent from './components/MainContent';
+    import MainContent from '@/components/MainContent.vue';
 
     @Component({
         components: {
@@ -61,8 +130,10 @@
     export default class App extends Vue {
         private showFrontPage = true;
         private showDesc = true;
-        private title = "My Profile"
-        private selectedItem = 'Home';
+        private title = "Home Page"
+        private selectedItem = 'Home Page';
+        private selectedNav = 'Home Page';
+        private resumeSelectedItem = 'skills';
         private partMargin = 20;
         private frontPageHeight = 260;
         private partOffset = 10;
@@ -71,31 +142,32 @@
         private diff = 150;
         private navList = [
             {
-                title: 'Home',
+                title: 'Home Page',
                 label: '主页',
-                icon: 'icon-people'
+                icon: 'icon-people',
             },
             {
-                title: 'Resume',
+                title: 'My Resume',
                 label: '简历',
-                icon: 'icon-file'
+                icon: 'icon-file',
             }, {
-                title: 'Portfolio',
-                label: '作品',
-                icon: 'icon-case'
-            }, {
-                title: 'Contact',
+                title: 'My Contact',
                 label: '联系',
-                icon: 'icon-fly'
+                icon: 'icon-fly',
             }
         ];
+
+        private changeResumeList() {
+            this.resumeSelectedItem = this.resumeSelectedItem === 'skills' ? 'blogs' : 'skills';
+        }
+
 
         private mounted() {
             const tl = new TimelineLite();
             const loaderWrapper = document.getElementById('loaderWrapper');
             const preLoader = document.getElementById('preLoader');
             const circle = document.getElementById('circle');
-            const descStr = this.$refs.descStr
+            const descStr: Element = this.$refs.descStr as Element;
             tl.to(circle, 0.3, {
                 opacity: 0,
             }).to(preLoader, 0.5, {
@@ -113,8 +185,8 @@
 
         private handleClick(item: string) {
             let self = this
-            self.selectedItem = item;
             const navClickTl = new TimelineLite();
+            self.selectedNav = item;
             navClickTl
                 .to('.right-part', 0.8, {
                     top: self.partMargin + self.partOffset + self.frontPageHeight - self.diff,
@@ -126,7 +198,9 @@
                     rotationX: 90
                 }, 'stage1')
                 .call(()=>{
-                    self.title = item
+                    self.title = item;
+                    self.selectedItem = item;
+
                 })
                 .to('.right-part', 0.8, {
                     top: self.partMargin,
@@ -168,6 +242,9 @@
                 '.left-part', 0.5, {
                     display: 'block',
                     left: partMargin,
+                    onComplete: function () {
+                        self.selectedItem = 'Home Page'
+                    }
                 }
             ).to(
                 '.right-part', 0.5, {
@@ -274,6 +351,7 @@
             .part
                 position absolute
                 display none
+                border-radius 5px
             .left-part
                 background-color: #f4d03f
                 width front-page-width
@@ -331,17 +409,171 @@
                 background-color: #0d0d0d;
                 .title
                     position absolute
-                    bottom 10px
+                    bottom 25px
                     left 20px
                     font-size 2.5rem
                     font-weight 400
-                    color #fff
+                    color #f4d03f
                     .title-part
-                        color #f4d03f
+                        color #fff
             .bottom-part
+                overflow hidden
                 width wrapper-width - part-margin* 2 - front-page-width - part-offset
                 height wrapper-height - part-margin* 2 - front-page-height - part-offset + diff
                 top front-page-height + part-margin + part-offset - diff
                 right part-margin
-                background-color: yellow;
+                padding 15px 30px
+                background-color: #fff
+                .home
+                    .part-title
+                        font-size 1.5rem
+                        line-height 4rem
+                        color #111111
+                        .name
+                            background-color: #f4d03f;
+                            padding 5px
+                    .intro-item
+                        font-size 1.2rem
+                        padding-bottom 20px
+                        font-weight 600
+                        color: #666666
+
+                    p .iconfont
+                        padding-right 10px
+                    .part-title.second
+                        padding-top 5px
+                    .info-list
+                        li
+                            line-height 2rem
+                            margin 10px 0
+                            .label
+                                background-color: #f4d03f;
+                                padding 5px
+                                margin-right 10px
+                            .content
+                                color #fff
+                                padding 5px
+                                background-color: #111111;
+                    .profile-img
+                        position absolute
+                        bottom 40px
+                        right 30px
+                        width 200px
+                        height 300px
+                        background: url("./assets/images/profile.png");
+                        background-size: contain;
+
+                .resume
+                    .resume-nav
+                        height 65px
+                        width 100%
+                        position absolute
+                        left 0
+                        top 0
+                        display flex
+                        flex-direction row
+                        .gap
+                            width 3px
+                        li
+                            flex 1
+                            background-image url("./assets/images/icon_01.png");
+                            background-repeat no-repeat
+                            background-position left top
+                            background-color #111111;
+                            transition all 0.5s
+                            color #f4d03f
+                            .resume-nav-title
+                                text-align center
+                                font-size 1.1rem
+                                line-height 65px
+                            &:hover
+                                background-color: #f4d03f
+                                color black
+                            &:nth-child(3)
+                                background-image url("./assets/images/icon_02.png");
+                            &.selected
+                                color black
+                                background-color: #f4d03f;
+
+
+    
+
+                    .skill-list
+                        padding-top 65px
+                        display flex
+                        flex-direction row
+                        justify-content space-between
+                        flex-wrap wrap
+                        width 100%
+                        li
+
+                            margin 10px
+                            width 120px
+                            height 120px
+                            padding 10px
+                            display flex
+                            flex-direction column
+                            align-items center
+                            i
+                                display: block
+                                color #f4d03f
+                                font-size 60px
+
+
+
+                .my-contact
+                    height 100%
+                    .map
+                        border 1px solid #f4d03f
+                        padding 10px
+                        width 100%
+                        height 40%
+                        .map-view
+                            width 100%
+                            height 100%
+                    .email-wrapper
+                        position relative
+                        top 20px
+                        height 50%
+                        width 100%
+                        display flex
+                        justify-content space-between
+                        .info-part
+                            position relative
+                            width 40%
+                            height 100%
+                            .info-content
+                                position absolute
+                                bottom 10px
+                                color #111
+                                .email-address
+                                    display inline-block
+                                    line-height 25px
+                                    font-size 16px
+                                    i
+                                        padding 0 10px 0 0
+
+                                h3
+                                    font-weight 700
+                                    font-size 1.5rem
+                                    line-height 1.5rem
+                                    padding 5px 0
+                        .email-part
+                            text-align center
+                            color #fff
+                            background-color: #111;
+                            padding 10px
+                            width 50%
+                            height 100%
+                            h3
+                                font-size 1.5rem
+                            .form-control
+                                width 100%
+                                margin-top 10px
+                            button
+                                background-color: #f4d03f;
+                                border-color #f4d03f
+                                &:hover
+                                    color #fff
+                                    opacity 0.9
 </style>
