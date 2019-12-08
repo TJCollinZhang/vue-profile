@@ -7,7 +7,7 @@
                 <div class="line-part left-line">
                 </div>
                 <div class="line-part right-line"></div>
-                <div class="avatar flex-display flex-center">
+                <div class="avatar flex-display flex-center" :class="{mini: !showDesc}">
                     <img src="./assets/images/avatar.jpg" alt="Avatar">
                 </div>
                 <p class="desc" v-show="showDesc"><span>I'm </span><span ref="descStr"></span></p>
@@ -59,7 +59,7 @@
                 <div class="resume" v-if="selectedItem == 'My Resume'">
                     <ul class="resume-nav">
                         <li :class="{selected: resumeSelectedItem == 'skills'}" @click="changeResumeList">
-                            <h3 class="resume-nav-title">Skills</h3>
+                            <h3 class="resume-nav-title">Projects</h3>
                         </li>
                         <div class="gap"></div>
                         <li :class="{selected: resumeSelectedItem != 'skills'}" @click="changeResumeList">
@@ -68,13 +68,34 @@
                     </ul>
                     <div class="skills-list" v-if="resumeSelectedItem == 'skills'">
                         <ul class="skill-list">
-                            <li><i class="iconfont icon-vue"></i><span>Vue</span></li>
-                            <li><i class="iconfont icon-angular"></i><span>Angular</span></li>
-                            <li><i class="iconfont icon-electron"></i><span>Electron</span></li>
-                            <li><i class="iconfont icon-koa"></i><span>Koa</span></li>
+                            <li><a href="https://blog.collinjs.site" target="_blank"><i class="iconfont icon-vue"></i></a><span>Blog</span></li>
+                            <li><a href="https://github.com/TJCollinZhang/blog-server" target="_blank"><i class="iconfont icon-koa"></i></a><span>Blog-Server</span></li>
+                            <li><a href="https://music.collinjs.site" target="_blank"><i class="iconfont icon-vue"></i></a><span>Vue Music</span></li>
+                            <li><a href=""><i class="iconfont icon-vue" target="_blank"></i></a><span>Vue Profile</span></li>
                         </ul>
                     </div>
-                    <div class="blog-list" v-if="resumeSelectedItem != 'skills'"></div>
+                    <div class="blogs-list" v-if="resumeSelectedItem != 'skills'">
+                        <ul class="blog-list">
+                            <li>
+                                <h3><a href="https://blog.collinjs.site/front/article/5dea016d3225520ec59e551a" target="_blank">debounce</a></h3>
+                                <span>解决debounce问题</span></li>
+                            <li>
+                                <h3><a href="">升级mongoDB遇到的坑</a></h3>
+                                <span>mongoDB</span></li>
+                            <li>
+                                <h3>Vue 部署遇到刷新后404</h3>
+                                <span>Vue</span></li>
+                            <li>
+                                <h3>Koa 401错误捕获</h3>
+                                <span>Koa错误</span></li>
+                            <li>
+                                <h3>Vue 实现打字机效果–ityped.js</h3>
+                                <span>Vue 实现打字机效果–ityped.js</span></li>
+                            <li>
+                                <h3>Vue 使用scrollreveal做初始动画</h3>
+                                <span>初始动画</span></li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="my-portfolio" v-if="selectedItem == 'My Portfolio'"></div>
                 <div class="my-contact" v-if="selectedItem == 'My Contact'">
@@ -98,11 +119,11 @@
                         </div>
                         <div class="email-part">
                             <h3>MAIL ME</h3>
-                            <form action="">
-                                <input class="form-control" type="text" placeholder="Name">
-                                <input class="form-control" type="text" placeholder="Email">
-                                <textarea class="form-control" rows="2" placeholder="Message"></textarea>
-                                <button class="form-control">SEND</button>
+                            <form action="MAILTO: tjzhangcong@163.com" method="post" enctype="text/plain">
+                                <input class="form-control" name="name" type="text" placeholder="Name">
+                                <input class="form-control" type="text" name="mail" placeholder="Email">
+                                <textarea class="form-control" rows="2" name="message" placeholder="Message"></textarea>
+                                <button type="submit" class="form-control">SEND</button>
                             </form>
                         </div>
                     </div>
@@ -168,6 +189,7 @@
             const preLoader = document.getElementById('preLoader');
             const circle = document.getElementById('circle');
             const descStr: Element = this.$refs.descStr as Element;
+
             tl.to(circle, 0.3, {
                 opacity: 0,
             }).to(preLoader, 0.5, {
@@ -318,6 +340,9 @@
                         width 100px
                         height 100px
                         border-radius 50%
+                .mini
+                    padding-top 15px
+                    padding-top 15px
                 .desc
                     color #fff
                     letter-spacing 3px
@@ -464,6 +489,7 @@
                         background-size: contain;
 
                 .resume
+                    height 100%
                     .resume-nav
                         height 65px
                         width 100%
@@ -496,7 +522,7 @@
                                 background-color: #f4d03f;
 
 
-    
+
 
                     .skill-list
                         padding-top 65px
@@ -506,7 +532,6 @@
                         flex-wrap wrap
                         width 100%
                         li
-
                             margin 10px
                             width 120px
                             height 120px
@@ -514,11 +539,66 @@
                             display flex
                             flex-direction column
                             align-items center
+                            span
+                                color #555
                             i
+                                transition all 0.3s
+                                &:hover
+                                    transform rotateY(180deg) scale(1.2)
+
+
                                 display: block
                                 color #f4d03f
                                 font-size 60px
 
+
+
+                    .blogs-list
+                        height 350px
+                        margin-top 65px
+                        overflow-y scroll
+                        &::-webkit-scrollbar{
+                            width: 10px;
+                            height: 10px;
+                            background-color: #333;
+                            border-radius:4px;
+                        }
+                        &::-webkit-scrollbar-button{/*滚动条两端的按钮，可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果（位置2）*/
+                            display:none;
+                        }
+                        &::-webkit-scrollbar-thumb{/*滚动条里面可以拖动的那部分（位置5）*/
+                            background: #F4D04F;
+                            border-radius:4px;
+                        }
+                        .blog-list
+                            display flex
+                            flex-direction column
+                            width 100%
+                            li
+                                width 100%
+                                border-bottom 1px dashed #eee
+                                h3
+                                    width fit-content
+                                    font-size 20px
+                                    line-height 30px
+                                    position relative
+                                    &::after
+                                        content: ''
+                                        width 100%
+                                        position absolute
+                                        left 0
+                                        bottom 0
+                                        height 1px
+                                        transform: scaleX(0);
+                                        transform-origin center center
+                                        transition: all 0.3s
+                                        background-color: #555;
+                                    &:hover::after
+                                        transform: scaleX(1);
+
+                                span
+                                    color #555
+                                    line-height 40px
 
 
                 .my-contact
